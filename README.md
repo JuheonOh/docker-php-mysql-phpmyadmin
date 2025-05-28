@@ -98,7 +98,7 @@
     docker-compose up -d
    ```
 
-3. 웹 브라우저에서 `http://localhost:8080`에 접속하여 PHP 환경을 확인합니다.
+3. 웹 브라우저에서 `http://localhost:80`에 접속하여 PHP 환경을 확인합니다.
 
 4. 컨테이너를 중지하려면 다음 명령어를 사용합니다.
 
