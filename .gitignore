@@ -1,0 +1,8 @@
+mysql/db_volume/*
+mysql/sql/*
+web/htdocs/*
+
+# 폴더 유지를 위해 .gitkeep 파일을 사용합니다.
+!mysql/db_volume/.gitkeep
+!mysql/sql/.gitkeep
+!web/htdocs/.gitkeep
