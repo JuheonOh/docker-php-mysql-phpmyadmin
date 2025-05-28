@@ -88,7 +88,7 @@
 1. `.env` 파일을 열고 필요한 환경 변수를 설정합니다.
 
    ```dotenv
-   WEB_PORT=8080
+   WEB_PORT=80
    MYSQL_DATABASE=my_database
    ```
 
