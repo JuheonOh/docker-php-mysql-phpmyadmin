@@ -21,7 +21,7 @@
 ## 사용한 Docker 이미지 및 버전
 
 - PHP: 8.3.21
-  - `pdo`, `pdo_mysql` 확장 모듈 포함
+  - `gd`, `pdo`, `pdo_mysql` 확장 모듈 포함
 - MySQL: 9.3.0
   - 비밀번호 없는 루트 계정
   - `.env` -> `MYSQL_DATABASE` 환경 변수로 데이터베이스 이름 설정
@@ -90,7 +90,7 @@
 1. `.env` 파일을 열고 필요한 환경 변수를 설정합니다.
 
    ```dotenv
-   WEB_PORT=80
+   WEB_PORT=8080
    MYSQL_DATABASE=my_database
    ```
 
@@ -100,7 +100,7 @@
     docker-compose up -d
    ```
 
-3. 웹 브라우저에서 `http://localhost`에 접속하여 PHP 환경을 확인합니다.
+3. 웹 브라우저에서 `http://localhost:8080`에 접속하여 PHP 환경을 확인합니다.
 
 4. 컨테이너를 중지하려면 다음 명령어를 사용합니다.
 
@@ -119,5 +119,5 @@ $ docker-compose ps
 NAME         IMAGE                          COMMAND                  SERVICE      CREATED         STATUS         PORTS
 mysql        mysql:9.3.0                    "docker-entrypoint.s…"   mysql        3 minutes ago   Up 3 minutes   3306/tcp, 33060/tcp
 phpmyadmin   phpmyadmin:5.2.2-apache        "/docker-entrypoint.…"   phpmyadmin   3 minutes ago   Up 3 minutes   0.0.0.0:32776->80/tcp
-web          2017-national-jeju-hotel-web   "docker-php-entrypoi…"   web          3 minutes ago   Up 3 minutes   0.0.0.0:80->80/tcp
+web          php-mysql-phpmyadmin-web       "docker-php-entrypoi…"   web          3 minutes ago   Up 3 minutes   0.0.0.0:8080->80/tcp
 ```
