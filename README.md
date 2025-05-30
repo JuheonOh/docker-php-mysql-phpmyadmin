@@ -8,11 +8,11 @@
   - [목차](#목차)
   - [사용한 Docker 이미지 및 버전](#사용한-docker-이미지-및-버전)
   - [파일 구조](#파일-구조)
-    - [web/config](#webconfig)
-    - [web/htdocs](#webhtdocs)
-    - [web/Dockerfile](#webdockerfile)
     - [mysql/db\_volume](#mysqldb_volume)
     - [mysql/sql](#mysqlsql)
+    - [php/config](#phpconfig)
+    - [php/Dockerfile](#phpdockerfile)
+    - [htdocs/](#htdocs)
     - [.env](#env)
   - [시작하기 전 주의사항](#시작하기-전-주의사항)
   - [시작하기](#시작하기)
@@ -32,7 +32,17 @@
 
 ## 파일 구조
 
-### web/config
+### mysql/db_volume
+
+- `db_volume` 폴더는 MySQL 데이터베이스의 영구 저장소로 사용됩니다. 이 폴더에 저장된 데이터는 컨테이너가 재시작되더라도 유지됩니다.
+
+### mysql/sql
+
+- `sql` 폴더는 MySQL 데이터베이스 초기화 스크립트를 저장하는 곳입니다. 이 폴더에 SQL 파일을 추가하면 컨테이너 시작 시 자동으로 실행됩니다.
+
+---
+
+### php/config
 
 - `php.ini` 파일을 수정하여 PHP 설정을 변경할 수 있습니다.
   - 변경된 설정 사항은 다음과 같습니다:
@@ -52,25 +62,15 @@
   upload_max_filesize = 40M
 ```
 
-### web/htdocs
-
-- `htdocs` 폴더는 웹 서버의 루트 디렉토리로, PHP 파일을 저장하는 곳입니다. 이 폴더에 PHP 파일을 추가하면 웹 브라우저를 통해 접근할 수 있습니다.
-
-### web/Dockerfile
+### php/Dockerfile
 
 - `Dockerfile`은 PHP 환경을 설정하는 데 사용됩니다. 이 파일에서 PHP 확장 모듈을 설치하고, 필요한 설정을 적용합니다.
 
 ---
 
-### mysql/db_volume
+### htdocs/
 
-- `db_volume` 폴더는 MySQL 데이터베이스의 영구 저장소로 사용됩니다. 이 폴더에 저장된 데이터는 컨테이너가 재시작되더라도 유지됩니다.
-
-### mysql/sql
-
-- `sql` 폴더는 MySQL 데이터베이스 초기화 스크립트를 저장하는 곳입니다. 이 폴더에 SQL 파일을 추가하면 컨테이너 시작 시 자동으로 실행됩니다.
-
----
+- `htdocs` 폴더는 웹 서버의 루트 디렉토리로, PHP 파일을 저장하는 곳입니다. 이 폴더에 PHP 파일을 추가하면 웹 브라우저를 통해 접근할 수 있습니다.
 
 ### .env
 
