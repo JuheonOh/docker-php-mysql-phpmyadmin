@@ -1,14 +1,12 @@
 # Docker로 PHP, MySQL, phpMyAdmin 환경 구축하기
 
-- 이 문서는 Docker를 사용하여 PHP, MySQL, phpMyAdmin 환경을 구축하는 방법을 설명합니다.
-
-- ~~고등학생 시절 기능경기대회 문제를 쉽게 실행할 수 있는 환경을 만들고자 작성되었습니다.~~
+- XAMPP의 htdocs 폴더를 번갈아 바꾸는 불편함을 해결하고, 여러 PHP 프로젝트를 독립적으로 동시에 실행할 수 있도록 개발 환경을 구성했습니다.
 
 ## 목차
 
 - [Docker로 PHP, MySQL, phpMyAdmin 환경 구축하기](#docker로-php-mysql-phpmyadmin-환경-구축하기)
   - [목차](#목차)
-  - [이미지 정보](#이미지-정보)
+  - [사용한 Docker 이미지 및 버전](#사용한-docker-이미지-및-버전)
   - [파일 구조](#파일-구조)
     - [web/config](#webconfig)
     - [web/htdocs](#webhtdocs)
@@ -16,10 +14,11 @@
     - [mysql/db\_volume](#mysqldb_volume)
     - [mysql/sql](#mysqlsql)
     - [.env](#env)
-  - [주의사항](#주의사항)
+  - [시작하기 전 주의사항](#시작하기-전-주의사항)
   - [시작하기](#시작하기)
+    - [phpMyAdmin 접속](#phpmyadmin-접속)
 
-## 이미지 정보
+## 사용한 Docker 이미지 및 버전
 
 - PHP: 8.3.21
   - `pdo`, `pdo_mysql` 확장 모듈 포함
@@ -39,14 +38,17 @@
   - 변경된 설정 사항은 다음과 같습니다:
 
 ```ini
-  # 스크립트 최대 실행 시간 (기본값: 30)
+  # 스크립트 최대 실행 시간
+  # max_execution_time = 30
   max_execution_time = 120
 
-  # 오류 보고 수준 설정 (기본값: E_ALL)
+  # 오류 보고 수준 설정
   # 모든 오류와 경고를 보고하지만(E_ALL), 사용 중단 예정 경고(E_DEPRECATED)와 엄격한 규칙 위반 경고(E_STRICT)는 제외합니다.
+  # error_reporting = E_ALL
   error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
 
-  # 업로드 파일 크기 제한 (기본값: 2M)
+  # 업로드 파일 크기 제한
+  # upload_max_filesize = 2M
   upload_max_filesize = 40M
 ```
 
@@ -73,15 +75,15 @@
 ### .env
 
 - `.env` 파일은 환경 변수를 설정하는 곳입니다.
-- `WEB_PORT` 변수로 웹 서버 포트를 설정할 수 있습니다.
-- `MYSQL_DATABASE` 변수로 초기 데이터베이스를 생성할 수 있습니다.
+- `WEB_PORT` 변수로 웹 서버 포트를 설정할 수 있습니다. (기본 값: `80`)
+- `MYSQL_DATABASE` 변수로 초기 데이터베이스를 생성할 수 있습니다. (기본 값: `my_database`)
 
 ---
 
-## 주의사항
+## 시작하기 전 주의사항
 
-- `sql` 폴더에 있는 SQL 파일은 `MYSQL_DATABASE` 환경 변수로 지정된 데이터베이스에 적용됩니다.
 - 컨테이너를 시작하기 전에 `.env` 파일을 적절히 설정해야 합니다.
+- MySQL 컨테이너 최초 실행시에만 초기 데이터베이스가 생성됩니다. 최초 실행 이후에는 `MYSQL_DATABASE` 환경 변수를 변경해도 데이터베이스가 생성되지 않습니다.
 
 ## 시작하기
 
@@ -98,10 +100,24 @@
     docker-compose up -d
    ```
 
-3. 웹 브라우저에서 `http://localhost:80`에 접속하여 PHP 환경을 확인합니다.
+3. 웹 브라우저에서 `http://localhost`에 접속하여 PHP 환경을 확인합니다.
 
 4. 컨테이너를 중지하려면 다음 명령어를 사용합니다.
 
    ```bash
    docker-compose down
    ```
+
+### phpMyAdmin 접속
+
+- phpMyAdmin은 랜덤 포트로 할당됩니다.
+- 할당된 포트는 `docker-compose ps` 명령어로 확인할 수 있습니다.
+- 예시: `http://localhost:포트번호`
+
+```bash
+$ docker-compose ps
+NAME         IMAGE                          COMMAND                  SERVICE      CREATED         STATUS         PORTS
+mysql        mysql:9.3.0                    "docker-entrypoint.s…"   mysql        3 minutes ago   Up 3 minutes   3306/tcp, 33060/tcp
+phpmyadmin   phpmyadmin:5.2.2-apache        "/docker-entrypoint.…"   phpmyadmin   3 minutes ago   Up 3 minutes   0.0.0.0:32776->80/tcp
+web          2017-national-jeju-hotel-web   "docker-php-entrypoi…"   web          3 minutes ago   Up 3 minutes   0.0.0.0:80->80/tcp
+```
