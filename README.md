@@ -10,8 +10,7 @@
   - [파일 구조](#파일-구조)
     - [mysql/db\_volume](#mysqldb_volume)
     - [mysql/sql](#mysqlsql)
-    - [php/config](#phpconfig)
-    - [php/Dockerfile](#phpdockerfile)
+    - [php/php.ini](#phpphpini)
     - [htdocs/](#htdocs)
     - [.env](#env)
   - [시작하기 전 주의사항](#시작하기-전-주의사항)
@@ -42,7 +41,7 @@
 
 ---
 
-### php/config
+### php/php.ini
 
 - `php.ini` 파일을 수정하여 PHP 설정을 변경할 수 있습니다.
   - 변경된 설정 사항은 다음과 같습니다:
@@ -61,14 +60,6 @@
   # upload_max_filesize = 2M
   upload_max_filesize = 40M
 ```
-
-### php/Dockerfile
-
-- `Dockerfile`은 PHP 환경을 설정하는 데 사용됩니다. 이 파일에서 PHP 확장 모듈을 설치하고, 필요한 설정을 적용합니다.
-- gd, pdo, pdo_mysql 확장 모듈이 포함되어 있습니다.
-- rewrite 모듈이 활성화되어 있습니다.
-
----
 
 ### htdocs/
 
@@ -118,8 +109,8 @@
 
 ```bash
 $ docker-compose ps
-NAME         IMAGE                          COMMAND                  SERVICE      CREATED         STATUS         PORTS
-mysql        mysql:9.3.0                    "docker-entrypoint.s…"   mysql        3 minutes ago   Up 3 minutes   3306/tcp, 33060/tcp
-phpmyadmin   phpmyadmin:5.2.2-apache        "/docker-entrypoint.…"   phpmyadmin   3 minutes ago   Up 3 minutes   0.0.0.0:32776->80/tcp
-web          php-mysql-phpmyadmin-web       "docker-php-entrypoi…"   web          3 minutes ago   Up 3 minutes   0.0.0.0:8080->80/tcp
+NAME                                IMAGE                        COMMAND                  SERVICE      CREATED         STATUS         PORTS
+php-mysql-phpmyadmin-mysql-1        mysql:9.3.0                  "docker-entrypoint.s…"   mysql        5 seconds ago   Up 3 seconds   3306/tcp, 33060/tcp
+php-mysql-phpmyadmin-php-1          juheonoh/php:8.3.21-apache   "docker-php-entrypoi…"   php          4 seconds ago   Up 3 seconds   0.0.0.0:8080->80/tcp
+php-mysql-phpmyadmin-phpmyadmin-1   phpmyadmin:5.2.2-apache      "/docker-entrypoint.…"   phpmyadmin   4 seconds ago   Up 3 seconds   0.0.0.0:32773->80/tcp
 ```
