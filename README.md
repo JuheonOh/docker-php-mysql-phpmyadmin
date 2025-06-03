@@ -65,6 +65,8 @@
 ### php/Dockerfile
 
 - `Dockerfile`은 PHP 환경을 설정하는 데 사용됩니다. 이 파일에서 PHP 확장 모듈을 설치하고, 필요한 설정을 적용합니다.
+- gd, pdo, pdo_mysql 확장 모듈이 포함되어 있습니다.
+- rewrite 모듈이 활성화되어 있습니다.
 
 ---
 
